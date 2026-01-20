@@ -789,7 +789,7 @@ CLASS zcl_excel_writer_huge_file IMPLEMENTATION.
         lv_cell_style = <content>-cell_style.
         UNASSIGN <style>.
         IF lv_cell_style IS NOT INITIAL.
-          READ TABLE styles_mapping ASSIGNING <style> WITH KEY guid = lv_cell_style.
+          READ TABLE styles_mapping ASSIGNING <style> WITH TABLE KEY guid = lv_cell_style.
         ENDIF.
       ENDIF.
 *
