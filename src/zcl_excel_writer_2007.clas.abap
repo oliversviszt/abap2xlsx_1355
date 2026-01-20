@@ -37,7 +37,11 @@ CLASS zcl_excel_writer_2007 DEFINITION
     DATA excel TYPE REF TO zcl_excel .
     DATA shared_strings TYPE zexcel_t_shared_string .
     DATA styles_cond_mapping TYPE zexcel_t_styles_cond_mapping .
-    DATA styles_mapping TYPE zexcel_t_styles_mapping .
+
+    TYPES tt_styles_mapping TYPE HASHED TABLE OF zexcel_s_styles_mapping WITH UNIQUE KEY guid.
+    "! Mapping of abap2xlsx-internal style GUIDs to style indexes as stored in the xlsx file.
+    DATA styles_mapping TYPE tt_styles_mapping .
+
     CONSTANTS c_xl_comments TYPE string VALUE 'xl/comments#.xml'. "#EC NOTEXT
     CONSTANTS cl_xl_drawing_for_comments TYPE string VALUE 'xl/drawings/vmlDrawing#.vml'. "#EC NOTEXT
     CONSTANTS c_xl_drawings_vml_rels TYPE string VALUE 'xl/drawings/_rels/vmlDrawing#.vml.rels'. "#EC NOTEXT
@@ -1238,7 +1242,7 @@ CLASS zcl_excel_writer_2007 IMPLEMENTATION.
     READ TABLE me->styles_cond_mapping TRANSPORTING NO FIELDS WITH KEY guid = iv_cell_style.
     CHECK sy-subrc NE 0.
 
-    READ TABLE me->styles_mapping INTO ls_styles_mapping WITH KEY guid = iv_cell_style.
+    READ TABLE me->styles_mapping INTO ls_styles_mapping WITH TABLE KEY guid = iv_cell_style.
 
     READ TABLE me->styles_cond_mapping INTO ls_style_cond_mapping WITH KEY style = ls_styles_mapping-style.
     IF sy-subrc EQ 0.
@@ -4457,7 +4461,7 @@ CLASS zcl_excel_writer_2007 IMPLEMENTATION.
 *--------------------------------------------------------------------*
       ENDIF.
       IF lv_style_guid IS NOT INITIAL.
-        READ TABLE styles_mapping INTO ls_style_mapping WITH KEY guid = lv_style_guid.
+        READ TABLE styles_mapping INTO ls_style_mapping WITH TABLE KEY guid = lv_style_guid.
 *end of change issue #157 - allow column cellstyles
         lv_value = ls_style_mapping-style.
         SHIFT lv_value RIGHT DELETING TRAILING space.
@@ -4853,7 +4857,7 @@ CLASS zcl_excel_writer_2007 IMPLEMENTATION.
       ENDIF.
       SUBTRACT 1 FROM ls_styles_mapping-style.
       ls_styles_mapping-guid = lo_style->get_guid( ).
-      APPEND ls_styles_mapping TO me->styles_mapping.
+      INSERT ls_styles_mapping INTO TABLE me->styles_mapping.
     ENDWHILE.
 
     " create numfmt elements
