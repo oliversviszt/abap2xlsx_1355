@@ -531,7 +531,7 @@ CLASS lcl_create_xl_sheet IMPLEMENTATION.
           lv_value           TYPE string,
           lv_column          TYPE zexcel_cell_column,
           lv_style_guid      TYPE zexcel_cell_style,
-          ls_style_mapping   TYPE zexcel_s_styles_mapping,
+          ls_style_mapping   TYPE zcl_excel_writer_2007=>ts_styles_mapping,
           lo_column_iterator TYPE REF TO zcl_excel_collection_iterator,
           lo_column          TYPE REF TO zcl_excel_column.
 

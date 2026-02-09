@@ -38,7 +38,11 @@ CLASS zcl_excel_writer_2007 DEFINITION
     DATA shared_strings TYPE zexcel_t_shared_string .
     DATA styles_cond_mapping TYPE zexcel_t_styles_cond_mapping .
 
-    TYPES tt_styles_mapping TYPE HASHED TABLE OF zexcel_s_styles_mapping WITH UNIQUE KEY guid.
+    TYPES: BEGIN OF ts_styles_mapping,
+             guid TYPE zexcel_cell_style,
+             style TYPE i,
+           END OF ts_styles_mapping.
+    TYPES tt_styles_mapping TYPE HASHED TABLE OF ts_styles_mapping WITH UNIQUE KEY guid.
     "! Mapping of abap2xlsx-internal style GUIDs to style indexes as stored in the xlsx file.
     DATA styles_mapping TYPE tt_styles_mapping .
 
@@ -1224,7 +1228,7 @@ CLASS zcl_excel_writer_2007 IMPLEMENTATION.
                lc_xml_node_fgcolor     TYPE string VALUE 'fgColor',
                lc_xml_node_bgcolor     TYPE string VALUE 'bgColor'.
 
-    DATA: ls_styles_mapping     TYPE zexcel_s_styles_mapping,
+    DATA: ls_styles_mapping     TYPE ts_styles_mapping,
           ls_cellxfs            TYPE zexcel_s_cellxfs,
           ls_style_cond_mapping TYPE zexcel_s_styles_cond_mapping,
           lo_sub_element        TYPE REF TO if_ixml_element,
@@ -4240,7 +4244,7 @@ CLASS zcl_excel_writer_2007 IMPLEMENTATION.
           lts_row_outlines       TYPE zcl_excel_worksheet=>mty_ts_outlines_row,
 
           ls_last_row            TYPE zexcel_s_cell_data,
-          ls_style_mapping       TYPE zexcel_s_styles_mapping,
+          ls_style_mapping       TYPE ts_styles_mapping,
 
           lo_element_2           TYPE REF TO if_ixml_element,
           lo_element_3           TYPE REF TO if_ixml_element,
@@ -4666,7 +4670,7 @@ CLASS zcl_excel_writer_2007 IMPLEMENTATION.
           ls_alignment      TYPE zexcel_s_style_alignment,
           lt_cellxfs        TYPE zexcel_t_cellxfs,
           ls_cellxfs        TYPE zexcel_s_cellxfs,
-          ls_styles_mapping TYPE zexcel_s_styles_mapping,
+          ls_styles_mapping TYPE ts_styles_mapping,
           lt_colors         TYPE zexcel_t_style_color_argb,
           ls_color          LIKE LINE OF lt_colors.
 

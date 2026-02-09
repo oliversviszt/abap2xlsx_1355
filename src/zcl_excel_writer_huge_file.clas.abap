@@ -770,7 +770,7 @@ CLASS zcl_excel_writer_huge_file IMPLEMENTATION.
     FIELD-SYMBOLS:
       <cell>    TYPE ty_cell,
       <content> TYPE zexcel_s_cell_data,
-      <style>   TYPE zexcel_s_styles_mapping.
+      <style>   TYPE zcl_excel_writer_2007=>ts_styles_mapping.
 
     CLEAR cells.
 
