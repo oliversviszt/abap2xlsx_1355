@@ -4726,7 +4726,27 @@ CLASS zcl_excel_writer_2007 IMPLEMENTATION.
       ls_built_in_num_format-num_format = <ls_reader_built_in>-format->format_code.
       INSERT ls_built_in_num_format INTO TABLE lt_built_in_num_formats.
     ENDLOOP.
-* Compress styles
+
+    "----------------------------------------------------------------------------------------
+    " Compress styles
+    "----------------------------------------------------------------------------------------
+    " Input:
+    "   Style contains multiple areas (fonts, fills etc.) with different settings. In the internal
+    "   model they are represented as objects, and can be identified with a GUID.
+    " Compression of individual areas:
+    "   If the settings of a given area (e.g. font) are fully identical in two styles, we only write
+    "   the area into the output the first time, and will reference this instance in other styles with the same settings.
+    "   For example a cell with a blue border and red text and a cell with green border and red text will have two different
+    "   styles but reference the same font area.
+    " Compression of styles:
+    "   If - after area compression has been applied - two styles reference the same areas, the two styles are practically
+    "   identical and will be compressed to a single style in the output.
+    "   For example two different style objects use blue border and red text, then it is enough to write a single file.
+    " Important variables:
+    "   lt_fonts, lt_fills etc. - areas that will be written to file
+    "   lt_cellxfs - styles that will be written to file
+    "   styles_mapping - mapping table that stored which file GUID points to which compressed style in the file
+
     lo_iterator = excel->get_styles_iterator( ).
     WHILE lo_iterator->has_next( ) EQ abap_true.
       lo_style ?= lo_iterator->get_next( ).
@@ -4863,6 +4883,10 @@ CLASS zcl_excel_writer_2007 IMPLEMENTATION.
       ls_styles_mapping-guid = lo_style->get_guid( ).
       INSERT ls_styles_mapping INTO TABLE me->styles_mapping.
     ENDWHILE.
+
+    "----------------------------------------------------------------------------------------
+    " Write style components to XML
+    "----------------------------------------------------------------------------------------
 
     " create numfmt elements
     LOOP AT lt_numfmts INTO ls_numfmt.
