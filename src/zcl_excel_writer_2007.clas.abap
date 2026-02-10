@@ -4731,17 +4731,23 @@ CLASS zcl_excel_writer_2007 IMPLEMENTATION.
     " Compress styles
     "----------------------------------------------------------------------------------------
     " Input:
-    "   Style contains multiple areas (fonts, fills etc.) with different settings. In the internal
+    "   A style contains multiple areas (fonts, fills etc.) with different settings. In the internal
     "   model they are represented as objects, and can be identified with a GUID.
+    " Output:
+    "   In the .xlsx files styles are referenced by their 0 based index. A style (cellXfs) references settings
+    "   in different areas by the 0 based index of the area entry, and has flags (applyFont, applyFill etc.) to indicate
+    "   if a 0 index means 'don't use' or the first entry within the area.
     " Compression of individual areas:
     "   If the settings of a given area (e.g. font) are fully identical in two styles, we only write
-    "   the area into the output the first time, and will reference this instance in other styles with the same settings.
+    "   the area into the output the first time, and will reference this instance (index) of the area in other styles with the same settings.
     "   For example a cell with a blue border and red text and a cell with green border and red text will have two different
-    "   styles but reference the same font area.
+    "   styles, reference two different 'border' areas,  but reference the same single 'font' area.
     " Compression of styles:
     "   If - after area compression has been applied - two styles reference the same areas, the two styles are practically
-    "   identical and will be compressed to a single style in the output.
-    "   For example two different style objects use blue border and red text, then it is enough to write a single file.
+    "   identical and will be compressed to a single style in the output (in the cellXfs array).
+    "   For example two different style objects use blue border and red text, then it is enough to write a single cellXfs entry.
+    "   There might be a lot of internal style guids used by the cell, but if all these styles are effectively the same, there will
+    "   only be a single cellXfs in the .xlsx file.
     " Important variables:
     "   lt_fonts, lt_fills etc. - areas that will be written to file
     "   lt_cellxfs - styles that will be written to file
