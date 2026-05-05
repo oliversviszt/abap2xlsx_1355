@@ -32,6 +32,11 @@ CLASS zcl_excel_autofilter DEFINITION
     METHODS constructor
       IMPORTING
         !io_sheet TYPE REF TO zcl_excel_worksheet .
+
+    METHODS get_worksheet
+      RETURNING
+        VALUE(ro_sheet) TYPE REF TO zcl_excel_worksheet.
+
     METHODS get_filter_area
       RETURNING
         VALUE(rs_area) TYPE zexcel_s_autofilter_area
@@ -121,6 +126,10 @@ CLASS zcl_excel_autofilter IMPLEMENTATION.
 
   METHOD constructor.
     worksheet = io_sheet.
+  ENDMETHOD.
+
+  METHOD get_worksheet.
+    ro_sheet = worksheet.
   ENDMETHOD.
 
   METHOD clone.
