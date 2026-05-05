@@ -84,6 +84,10 @@ CLASS zcl_excel_comment DEFINITION
         !ip_bottom_offset TYPE i DEFAULT gc_default_box-bottom_offset.
 
   PROTECTED SECTION.
+    "! Returns a deep copy of this comment.
+    METHODS clone
+      RETURNING
+        VALUE(eo_clone) TYPE REF TO zcl_excel_comment .
   PRIVATE SECTION.
 
     DATA index TYPE string .
@@ -196,6 +200,15 @@ CLASS zcl_excel_comment IMPLEMENTATION.
 
     gs_box = is_box.
 
+  ENDMETHOD.
+
+
+  METHOD clone.
+    CREATE OBJECT eo_clone.
+    eo_clone->index  = me->index.
+    eo_clone->ref    = me->ref.
+    eo_clone->text   = me->text.
+    eo_clone->gs_box = me->gs_box.
   ENDMETHOD.
 
 ENDCLASS.
