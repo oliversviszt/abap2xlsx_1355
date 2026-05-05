@@ -51,21 +51,21 @@ CLASS zcl_excel DEFINITION
     "! Creates a new worksheet that is a deep copy of <em>io_source</em>.
     "!
     "! Behaviour mirrors <em>add_new_worksheet</em>: the new sheet is appended,
-    "! becomes the active sheet, and is returned. 
-    "! 
+    "! becomes the active sheet, and is returned.
+    "!
     "! The copy is generally "disconnected": subsequent changes on the new worksheet do
-    "! should not affect the source worksheet. 
+    "! should not affect the source worksheet.
     "! However, there are exceptions from this rule:
     "!  - Style GUIDs that live in the workbook-wide  styles collection are intentionally
-    "!    shared - you may follow up with <em>add_new_style</em> to fork a style if independent 
+    "!    shared - you may follow up with <em>add_new_style</em> to fork a style if independent
     "!    in edits are required.
     "!  - Drawings are copied 'by reference'.
-    "! 
+    "!
     "! Use the optional <em>is_options</em> structure (skip-flags, default = include everything)
     "! to limit which categories of content are copied; see <em>zcl_excel_worksheet=&gt;ts_clone_options</em>.
     "!
     "! @parameter io_source | The source worksheet (must belong to this workbook).
-    "! @parameter iv_title | Title of the new worksheet. 
+    "! @parameter iv_title | Title of the new worksheet.
     "! @parameter is_options | Skip-flags controlling what to copy.
     "! @parameter eo_worksheet | The newly created cloned worksheet.
     "! @raising zcx_excel | If the source is invalid or no unique title can be derived.

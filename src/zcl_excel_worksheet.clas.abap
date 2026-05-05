@@ -77,7 +77,7 @@ CLASS zcl_excel_worksheet DEFINITION
     TYPES:
         mty_ts_merge TYPE SORTED TABLE OF mty_merge WITH UNIQUE KEY table_line.
 
-    TYPES:
+        TYPES:
       ty_area TYPE c LENGTH 1 .
 
     "! Flags controlling which "categories" of worksheet contents are NOT copied during a clone
