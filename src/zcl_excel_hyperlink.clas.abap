@@ -1,7 +1,8 @@
 CLASS zcl_excel_hyperlink DEFINITION
   PUBLIC
   FINAL
-  CREATE PRIVATE .
+  CREATE PRIVATE
+  GLOBAL FRIENDS zcl_excel_worksheet .
 
 *"* public components of class ZCL_EXCEL_HYPERLINK
 *"* do not include other source files here!!!

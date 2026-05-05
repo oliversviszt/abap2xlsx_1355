@@ -1,6 +1,7 @@
 CLASS zcl_excel_worksheet DEFINITION
   PUBLIC
-  CREATE PUBLIC .
+  CREATE PUBLIC
+  GLOBAL FRIENDS zcl_excel.
 
   PUBLIC SECTION.
 *"* public components of class ZCL_EXCEL_WORKSHEET

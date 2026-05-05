@@ -1,7 +1,8 @@
 CLASS zcl_excel_autofilters DEFINITION
   PUBLIC
   FINAL
-  CREATE PUBLIC .
+  CREATE PUBLIC
+  GLOBAL FRIENDS zcl_excel_worksheet.
 
   PUBLIC SECTION.
 *"* public components of class ZCL_EXCEL_AUTOFILTERS

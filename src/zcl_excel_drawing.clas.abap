@@ -1,7 +1,8 @@
 CLASS zcl_excel_drawing DEFINITION
   PUBLIC
   FINAL
-  CREATE PUBLIC .
+  CREATE PUBLIC
+  GLOBAL FRIENDS zcl_excel_worksheet .
 
   PUBLIC SECTION.
     CONSTANTS c_graph_pie TYPE zexcel_graph_type VALUE 1.   "#EC NOTEXT

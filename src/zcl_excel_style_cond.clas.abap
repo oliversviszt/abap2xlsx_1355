@@ -1,7 +1,8 @@
 CLASS zcl_excel_style_cond DEFINITION
   PUBLIC
   FINAL
-  CREATE PUBLIC .
+  CREATE PUBLIC
+  GLOBAL FRIENDS zcl_excel_worksheet .
 
   PUBLIC SECTION.
     CLASS zcl_excel_style_conditional DEFINITION LOAD .

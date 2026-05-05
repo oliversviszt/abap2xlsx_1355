@@ -1,7 +1,8 @@
 CLASS zcl_excel_table DEFINITION
   PUBLIC
   FINAL
-  CREATE PUBLIC .
+  CREATE PUBLIC
+  GLOBAL FRIENDS zcl_excel_worksheet .
 
 *"* public components of class ZCL_EXCEL_TABLE
 *"* do not include other source files here!!!

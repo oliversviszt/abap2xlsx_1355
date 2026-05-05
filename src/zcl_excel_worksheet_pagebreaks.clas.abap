@@ -1,6 +1,7 @@
 CLASS zcl_excel_worksheet_pagebreaks DEFINITION
   PUBLIC
-  CREATE PUBLIC .
+  CREATE PUBLIC
+  GLOBAL FRIENDS zcl_excel_worksheet .
 
   PUBLIC SECTION.
 
